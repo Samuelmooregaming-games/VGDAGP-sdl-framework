@@ -8,6 +8,7 @@ namespace SDLFramework {
 		enum Space { Local = 0, World };
 
 		GameEntity(float x = 0.0f, float y = 0.0f);
+		GameEntity(const Vector2& position);
 		~GameEntity();
 
 		void Position(float x, float y);
@@ -18,14 +19,17 @@ namespace SDLFramework {
 		float Rotation(Space space = World);
 
 		void Scale(Vector2 scale);
-		Vector2 Scale(Space space = World);
+		Vector2 Scale(Space space = Local);
 
 		void Active(bool active);
 		bool Active() const;
 
 		void Parent(GameEntity* parent);
 		GameEntity* Parent();
-
+		
+		void Translate(Vector2 vec, Space space = Local);
+		void Rotate(float amount);
+		Vector2(Scale(float ammount));
 		virtual void Update() {};
 		virtual void Render() {};
 

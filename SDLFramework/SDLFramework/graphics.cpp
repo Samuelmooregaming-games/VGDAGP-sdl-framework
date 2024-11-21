@@ -49,10 +49,27 @@ namespace SDLFramework {
 
 	void Graphics::DrawTexture(SDL_Texture* texture, SDL_Rect* srcRect, SDL_Rect* dst_Rect,
 		float angle, SDL_RendererFlip flip) {
-
+		SDL_RenderCopyEx(mRenderer, texture, srcRect, dst_Rect, angle, nullptr, flip);	
 	}
 
-	
+	SDL_Texture* Graphics::Create_Text_Texture(TTF_Font* font, std::string text, SDL_Color color) {
+		SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
+
+		if (surface == nullptr) {
+		std::cerr << "CreateTextTexture::SDL_CreateTextTexturesolid error: " << SDL_GetError() << std::endl;
+		return nullptr;
+		}
+
+		SDL_Texture* tex = SDL_CreateTextureFromSurface(mRenderer, surface);
+
+		if (tex == nullptr) {
+			std::cerr << "CreateTextTexture::SDL_CreateTextTexturefromsurface error: " << SDL_GetError << std::endl;
+			return nullptr;
+		}
+
+		SDL_FreeSurface(surface);
+		return tex;
+	}
 
 	
 	void Graphics::ClearBackBuffer() {
@@ -85,7 +102,7 @@ namespace SDLFramework {
 
 		//TODO: DRAW A WINDOW
 		mWindow = SDL_CreateWindow(
-			"SDL Tutorial",
+			WINDOW_TITLE,
 			SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
 			SCREEN_WIDTH,
@@ -104,6 +121,10 @@ namespace SDLFramework {
 		if (mRenderer == nullptr) {
 			//We have failed to create a renderer
 			std::cerr << "Unable to get renderer. SDL_Error: " << SDL_GetError() << std::endl;
+			return false;
+		}
+		if (TTF_Init() == -1) {
+			std::cerr << "unable to initialize sdl ttf: ttf error " << TTF_GetError << std::endl;
 			return false;
 		}
 

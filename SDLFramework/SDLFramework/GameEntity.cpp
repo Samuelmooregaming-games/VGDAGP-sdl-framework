@@ -6,6 +6,11 @@ namespace SDLFramework {
 
 	}
 
+	GameEntity::GameEntity(const Vector2& position) : mPosition(position), mRotation(0.0f),
+		mScale(Vec2_One), mActive(true), mParent(nullptr) {
+			
+	}
+	
 	GameEntity::~GameEntity() {
 		mParent = nullptr;
 	}
@@ -47,9 +52,9 @@ Vector2 GameEntity::Scale(Space space) {
 	if (space == Local || mParent == nullptr) {
 		return mScale;
 	}
-	Vector2 scale = mParent->Scale(World);
-	scale.x *= mScale.x;
-	scale.y *= mScale.y;
+	Vector2 scale = mParent->Scale(Local);
+	scale.x += mScale.x;
+	scale.y += mScale.y;
 	return scale;
 }
 
@@ -64,7 +69,7 @@ void GameEntity::Parent(GameEntity* parent) {
 	if (parent == nullptr) {
 		mPosition = Position(World);
 		mRotation = Rotation(World);
-		mScale = Scale(World);
+		mScale = Scale(Local);
 	}
 	else {
 		if (mParent != nullptr) {
@@ -86,6 +91,20 @@ void GameEntity::Parent(GameEntity* parent) {
 GameEntity* GameEntity::Parent() {
 	return mParent;
 }
+void GameEntity::Translate(Vector2 vec, Space space) {
+	if(space == World) {
+		mPosition += vec;
+	}
+	else {
+		mPosition += RotateVector(vec, Rotation());
+	}
+
+}
+
+void GameEntity::Rotate(float amount) {
+	mRotation += amount;
+}
+
 }
 
 

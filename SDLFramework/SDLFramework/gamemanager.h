@@ -2,11 +2,16 @@
 #include "Graphics.h"
 #include "Timer.h"
 #include "GameEntity.h"
-
+#include"texture.h"
+#include "inputmanager.h"
+#include "animatedtexture.h"
+#include "audiomanager.h"
+#include"physicsmanager.h"
 namespace SDLFramework {
 	class GameManager {
 	public:
 		static GameManager* Instance();
+		
 		static void Release();
 
 		GameManager();
@@ -29,8 +34,13 @@ namespace SDLFramework {
 		//Modules
 		Graphics* mGraphics;
 		Timer* mTimer;
-		GameEntity* mParent;
-		GameEntity* mChild;
-		SDL_Event mEvents;
+		AssetManager* mAssetManager;
+		InputManager* mInputManager;
+		AudioManager* mAudiomanager;
+		PhysicsManager* mPhysicsManager;
+
+
+		
+		SDL_Event mevents;
 	};
 }

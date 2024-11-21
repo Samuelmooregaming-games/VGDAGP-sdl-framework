@@ -3,11 +3,14 @@
 #include <iostream>
 #include<string>
 #include<SDL_image.h>
+#include <SDL_ttf.h>
 namespace SDLFramework {
 	class Graphics {
 	public:
-		static const int SCREEN_WIDTH = 600;
-		static const int SCREEN_HEIGHT = 700;
+		static const int SCREEN_WIDTH = 1024;
+		static const int SCREEN_HEIGHT = 896;
+		const char* WINDOW_TITLE = "Galaga";
+
 
 		static Graphics* Instance();
 		//Handle releasing (uninitializing) memory. ONLY HANDLES OUR WINDOW AND RENDERER
@@ -18,6 +21,7 @@ namespace SDLFramework {
 		void DrawTexture(SDL_Texture* texture, SDL_Rect* srcRect = nullptr, SDL_Rect* dst_Rect = nullptr,
 			float angle = 0.0f, SDL_RendererFlip = SDL_FLIP_NONE);
 
+		 SDL_Texture* Create_Text_Texture(TTF_Font* font, std::string text, SDL_Color color);
 
 
 		//Cleanup that happens to the area in memory that draws the next frame
